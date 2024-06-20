@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:harry_potter/models/character.dart';
+import 'package:harry_potter/widgets/rating.dart';
 
-class CharacterDetail extends StatelessWidget {
+class CharacterDetail extends StatefulWidget {
   const CharacterDetail({super.key, required this.character});
 
   final Character character;
+
+  @override
+  State<CharacterDetail> createState() => _CharacterDetailState();
+}
+
+class _CharacterDetailState extends State<CharacterDetail> {
+  var lastRatingClicked = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -18,30 +26,31 @@ class CharacterDetail extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Hero(
-            tag: character.name,
+            tag: widget.character.name,
             child: Image.network(
-              character.imageUrl,
+              widget.character.imageUrl,
               height: totalHeight / 2,
             ),
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.star),
-                  Icon(Icons.star),
-                  Icon(Icons.star),
-                  Icon(Icons.star_border),
-                  Icon(Icons.star_border),
-                ],
-              ),
-              Text("89 reviews"),
+              Rating(value: widget.character.average),
+              Text("${widget.character.totalReviews} reviews"),
             ],
           ),
+          Rating(
+            value: lastRatingClicked,
+            color: Colors.deepPurple,
+            onStarClicked: (i) {
+              lastRatingClicked = i;
+              widget.character.totalReviews++;
+              widget.character.totalStars += i;
+              setState(() {});
+            },
+          ),
           Text(
-            character.name,
+            widget.character.name,
             style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
           Row(
@@ -51,21 +60,21 @@ class CharacterDetail extends StatelessWidget {
                 children: [
                   const Icon(Icons.fitness_center),
                   const Text("Fuerza"),
-                  Text(character.strenght.toString()),
+                  Text(widget.character.strength.toString()),
                 ],
               ),
               Column(
                 children: [
                   const Icon(Icons.auto_fix_normal),
                   const Text("Magia"),
-                  Text(character.magic.toString()),
+                  Text(widget.character.magic.toString()),
                 ],
               ),
               Column(
                 children: [
                   const Icon(Icons.speed),
                   const Text("Velocidad"),
-                  Text(character.speed.toString()),
+                  Text(widget.character.speed.toString()),
                 ],
               ),
             ],
