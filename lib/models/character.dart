@@ -1,17 +1,27 @@
 class Character {
+  final int id;
   final String name;
   final String imageUrl;
   final int strength;
   final int magic;
   final int speed;
 
-  int totalReviews = 0;
-  int totalStars = 0;
+  int _totalReviews = 0;
+  int _totalStars = 0;
+  int get totalReviews => _totalReviews;
+  int get totalStars => _totalStars;
+  bool favorite = false;
 
   int get average =>
-      (totalReviews == 0) ? 0 : (totalStars / totalReviews).round();
+      (_totalReviews == 0) ? 0 : (_totalStars / _totalReviews).round();
+
+  void addReview(int rate) {
+    _totalReviews++;
+    _totalStars += rate;
+  }
 
   Character({
+    required this.id,
     required this.name,
     required this.imageUrl,
     required this.strength,

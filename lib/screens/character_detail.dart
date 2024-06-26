@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:harry_potter/models/character.dart';
+import 'package:harry_potter/data/data.dart';
 import 'package:harry_potter/widgets/rating.dart';
+import 'package:provider/provider.dart';
 
 class CharacterDetail extends StatefulWidget {
-  const CharacterDetail({super.key, required this.character});
+  const CharacterDetail({super.key, required this.characterId});
 
-  final Character character;
+  final int characterId;
 
   @override
   State<CharacterDetail> createState() => _CharacterDetailState();
@@ -22,65 +23,87 @@ class _CharacterDetailState extends State<CharacterDetail> {
       appBar: AppBar(
         title: const Text("Harry Potter App"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Hero(
-            tag: widget.character.name,
-            child: Image.network(
-              widget.character.imageUrl,
-              height: totalHeight / 2,
+      body: Consumer<HogwartsData>(builder: (context, hogwartsData, child) {
+        var character = hogwartsData.getCharacter(widget.characterId);
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Stack(
+              children: [
+                Hero(
+                  tag: character.name,
+                  child: Image.network(
+                    character.imageUrl,
+                    height: totalHeight / 2,
+                  ),
+                ),
+                Positioned(
+                  right: -10,
+                  bottom: -10,
+                  child: InkWell(
+                    onTap: () {
+                      hogwartsData.toggleFavorite(widget.characterId);
+                    },
+                    child: Icon(
+                      (character.favorite)
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      size: 48,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                )
+              ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Rating(value: widget.character.average),
-              Text("${widget.character.totalReviews} reviews"),
-            ],
-          ),
-          Rating(
-            value: lastRatingClicked,
-            color: Colors.deepPurple,
-            onStarClicked: (i) {
-              lastRatingClicked = i;
-              widget.character.totalReviews++;
-              widget.character.totalStars += i;
-              setState(() {});
-            },
-          ),
-          Text(
-            widget.character.name,
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                children: [
-                  const Icon(Icons.fitness_center),
-                  const Text("Fuerza"),
-                  Text(widget.character.strength.toString()),
-                ],
-              ),
-              Column(
-                children: [
-                  const Icon(Icons.auto_fix_normal),
-                  const Text("Magia"),
-                  Text(widget.character.magic.toString()),
-                ],
-              ),
-              Column(
-                children: [
-                  const Icon(Icons.speed),
-                  const Text("Velocidad"),
-                  Text(widget.character.speed.toString()),
-                ],
-              ),
-            ],
-          )
-        ],
-      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Rating(value: character.average),
+                Text("${character.totalReviews} reviews"),
+              ],
+            ),
+            Rating(
+              value: lastRatingClicked,
+              color: Colors.deepPurple,
+              onStarClicked: (i) {
+                lastRatingClicked = i;
+                hogwartsData.addReview(widget.characterId, i);
+                setState(() {});
+              },
+            ),
+            Text(
+              character.name,
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    const Icon(Icons.fitness_center),
+                    const Text("Fuerza"),
+                    Text(character.strength.toString()),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Icon(Icons.auto_fix_normal),
+                    const Text("Magia"),
+                    Text(character.magic.toString()),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Icon(Icons.speed),
+                    const Text("Velocidad"),
+                    Text(character.speed.toString()),
+                  ],
+                ),
+              ],
+            )
+          ],
+        );
+      }),
     );
   }
 }
