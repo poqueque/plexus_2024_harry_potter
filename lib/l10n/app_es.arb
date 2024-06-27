@@ -1,0 +1,8 @@
+{
+  "hogwarts": "Personajes de Hogwarts",
+  "reviews": "Valoraciones: {reviews}",
+  "nReviews": "{count, plural, =0{no hay valoraciones} =1{1 valoración} other{{count} valoraciones muchas muchas muchas muchas muchas muchas muchas muchas muchas}}",
+  "strength": "Fuerza",
+  "magic": "Magia",
+  "speed": "Velocidad"
+}

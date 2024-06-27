@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harry_potter/gen/assets.gen.dart';
 import 'package:harry_potter/models/character.dart';
 
 class HogwartsData extends ChangeNotifier {
@@ -6,7 +7,7 @@ class HogwartsData extends ChangeNotifier {
     Character(
       id: 1,
       name: "Harry Potter",
-      asset: "assets/images/harry.png",
+      asset: Assets.images.harry.path,
       strength: 9,
       magic: 9,
       speed: 8,
@@ -14,7 +15,7 @@ class HogwartsData extends ChangeNotifier {
     Character(
       id: 2,
       name: "Hermione Granger",
-      asset: "assets/images/hermione.png",
+      asset: Assets.images.hermione.path,
       strength: 8,
       magic: 10,
       speed: 9,
@@ -22,7 +23,7 @@ class HogwartsData extends ChangeNotifier {
     Character(
       id: 3,
       name: "Ron Weasley",
-      asset: "assets/images/ron.png",
+      asset: Assets.images.ron.path,
       strength: 10,
       magic: 6,
       speed: 7,
@@ -36,6 +37,12 @@ class HogwartsData extends ChangeNotifier {
   void addReview(int characterId, int rate) {
     var character = getCharacter(characterId);
     character.addReview(rate);
+    notifyListeners();
+  }
+
+  void removeReview(int characterId, int rate) {
+    var character = getCharacter(characterId);
+    character.removeReview(rate);
     notifyListeners();
   }
 

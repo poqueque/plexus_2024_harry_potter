@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:harry_potter/data/data.dart';
 import 'package:harry_potter/data/preferences.dart';
+import 'package:harry_potter/gen/fonts.gen.dart';
 import 'package:harry_potter/screens/adaptive_page.dart';
 import 'package:provider/provider.dart';
 
@@ -21,9 +23,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          fontFamily: 'Montserrat',
+          fontFamily: FontFamily.montserrat,
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.deepPurpleAccent[100],
             centerTitle: true,

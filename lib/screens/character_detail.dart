@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:harry_potter/data/data.dart';
+import 'package:harry_potter/gen/assets.gen.dart';
 import 'package:harry_potter/widgets/rating.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,7 @@ class _CharacterDetailState extends State<CharacterDetail> {
   @override
   Widget build(BuildContext context) {
     var totalHeight = MediaQuery.of(context).size.height;
+    var l = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: widget.showAppBar
@@ -30,7 +33,7 @@ class _CharacterDetailState extends State<CharacterDetail> {
           : null,
       body: Consumer<HogwartsData>(builder: (context, hogwartsData, child) {
         var character = hogwartsData.getCharacter(widget.characterId);
-        return SingleChildScrollView(
+        return SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -52,7 +55,7 @@ class _CharacterDetailState extends State<CharacterDetail> {
                       },
                       child: (character.favorite)
                           ? Lottie.asset(
-                              'assets/anim/heart.json',
+                              Assets.anim.heart,
                               width: 100,
                               height: 100,
                               repeat: false,
@@ -74,7 +77,10 @@ class _CharacterDetailState extends State<CharacterDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Rating(value: character.average),
-                  Text("${character.totalReviews} reviews"),
+                  Flexible(
+                    child: Text(l.nReviews(character.totalReviews),
+                        overflow: TextOverflow.ellipsis),
+                  ),
                 ],
               ),
               Rating(
@@ -97,21 +103,21 @@ class _CharacterDetailState extends State<CharacterDetail> {
                   Column(
                     children: [
                       const Icon(Icons.fitness_center),
-                      const Text("Fuerza"),
+                      Text(l.strength),
                       Text(character.strength.toString()),
                     ],
                   ),
                   Column(
                     children: [
                       const Icon(Icons.auto_fix_normal),
-                      const Text("Magia"),
+                      Text(l.magic),
                       Text(character.magic.toString()),
                     ],
                   ),
                   Column(
                     children: [
                       const Icon(Icons.speed),
-                      const Text("Velocidad"),
+                      Text(l.speed),
                       Text(character.speed.toString()),
                     ],
                   ),

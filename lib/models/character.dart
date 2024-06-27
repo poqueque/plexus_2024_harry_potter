@@ -20,6 +20,11 @@ class Character {
     _totalStars += rate;
   }
 
+  void removeReview(int rate) {
+    _totalReviews--;
+    _totalStars -= rate;
+  }
+
   Character({
     required this.id,
     required this.name,
