@@ -1,7 +1,7 @@
 class Character {
   final int id;
   final String name;
-  final String imageUrl;
+  final String asset;
   final int strength;
   final int magic;
   final int speed;
@@ -23,7 +23,7 @@ class Character {
   Character({
     required this.id,
     required this.name,
-    required this.imageUrl,
+    required this.asset,
     required this.strength,
     required this.magic,
     required this.speed,

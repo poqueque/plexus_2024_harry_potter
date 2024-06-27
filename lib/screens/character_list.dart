@@ -14,6 +14,10 @@ class CharacterList extends StatelessWidget {
         builder: (context, hogwartsData, child) {
           return Scaffold(
             appBar: AppBar(
+              leading: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('assets/images/hp_icon.png'),
+              ),
               title: const Text("Welcome to Hogwarts"),
               actions: [
                 Switch(
@@ -35,7 +39,7 @@ class CharacterList extends StatelessWidget {
                         : null,
                     leading: Hero(
                       tag: character.name,
-                      child: Image.network(character.imageUrl),
+                      child: Image.asset(character.asset),
                     ),
                     trailing: Icon(character.favorite
                         ? Icons.favorite

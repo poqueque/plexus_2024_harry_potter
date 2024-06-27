@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harry_potter/data/data.dart';
 import 'package:harry_potter/widgets/rating.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class CharacterDetail extends StatefulWidget {
@@ -32,8 +33,8 @@ class _CharacterDetailState extends State<CharacterDetail> {
               children: [
                 Hero(
                   tag: character.name,
-                  child: Image.network(
-                    character.imageUrl,
+                  child: Image.asset(
+                    character.asset,
                     height: totalHeight / 2,
                   ),
                 ),
@@ -44,13 +45,22 @@ class _CharacterDetailState extends State<CharacterDetail> {
                     onTap: () {
                       hogwartsData.toggleFavorite(widget.characterId);
                     },
-                    child: Icon(
-                      (character.favorite)
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      size: 48,
-                      color: Colors.deepPurple,
-                    ),
+                    child: (character.favorite)
+                        ? Lottie.asset(
+                            'assets/anim/heart.json',
+                            width: 100,
+                            height: 100,
+                            repeat: false,
+                          )
+                        : const SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Icon(
+                              Icons.favorite_border,
+                              size: 48,
+                              color: Colors.red,
+                            ),
+                          ),
                   ),
                 )
               ],
