@@ -38,8 +38,8 @@ class _CharacterDetailState extends State<CharacterDetail> {
                   ),
                 ),
                 Positioned(
-                  right: -10,
-                  bottom: -10,
+                  right: 0,
+                  bottom: 0,
                   child: InkWell(
                     onTap: () {
                       hogwartsData.toggleFavorite(widget.characterId);
